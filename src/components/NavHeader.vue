@@ -35,10 +35,13 @@
                     <span class="mini-cart-num J_cartNum" id="hd_cartnum">(0)</span>
                 </a>
             </div>
-            <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE">
-                <a class="link" href="#/login" rel="nofollow">登录</a>
+            <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE" v-show="userName==''" >
+                <a class="link" href="#" rel="nofollow" v-on:click="showModal">登录</a>
                 <span class="sep">|</span>
                 <a class="link" href="#/register" rel="nofollow">注册</a>
+            </div>
+            <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE"v-show="userName!=''">
+               {{userName}}
             </div>
             <!-- </div> -->
         </div>
@@ -46,17 +49,42 @@
             <div class="container"></div>
         </div>
     </div>
-    
+    <login-modal 
+        v-bind:md-show="showLogin"
+        v-on:closed="closeModal"
+        v-on:success="loginOK"
+
+    >
+    </login-modal>
   </div>
+  
 </template>
 
 <script>
+import LoginModal from '@/components/LoginModal'
 export default {
   name: 'NavHeader',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  data(){
+      return {
+          userName:"",
+          showLogin:false
+      }
+  },
+  components:{
+      LoginModal
+  },
+  methods:{
+      showModal(){
+          this.showLogin = true
+      },
+      closeModal(){
+          this.showLogin = false
+      },
+      loginOK(userName){
+          console.log(userName)
+          this.userName = userName
+          this.closeModal()
+      }
   }
 }
 </script>
