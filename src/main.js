@@ -6,6 +6,16 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+
+import Axios from 'axios'
+
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, Axios)
+
+Vue.filter("money",function(data){
+  return "￥"+ data
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

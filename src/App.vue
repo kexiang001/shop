@@ -1,14 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    
+
+    <nav-header>
+    
+    </nav-header> 
+    
     <router-view/>
+    <nav-footer></nav-footer>
   </div>
 </template>
 
 <script>
+import NavHeader from "./components/NavHeader"
+
+import NavFooter from "./components/NavFooter"
+
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    NavHeader,
+    NavFooter
+  }
 }
+
 </script>
 
 <style>
@@ -16,8 +31,7 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+ 
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
