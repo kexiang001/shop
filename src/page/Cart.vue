@@ -4,72 +4,96 @@
     <nav-bread>
         购物车
     </nav-bread> 
-    <div class="page-main" id="cart-box">
-        <div class="container">
-            <div class="cart-goods-list">
-                <div class="list-head clearfix">
-                    <div class="col col-img" id="itemsnum-top">图片</div>
-                    <div class="col col-name">商品名称</div>
-                    <div class="col col-price">单价</div>
-                    <div class="col col-num">数量</div>
-                    <div class="col col-total">小计</div>
-                    <div class="col col-action">操作</div>
-                </div>
-                <div class="list-body">
-
-                    <div class="item-box">
-                        <div class="item-table">
-                            <div class="item-row clearfix">
-                                <div class="col col-img">
-                                    <a href="goods.php?id=27" target="_blank"> 
-                                        <img alt="小米电视2 40英寸" src="/static/images/201507/27_thumb_G_1437074702008.jpg">
+     <div class="container">
+        <div class="cart">
+            <div class="page-title-normal">
+                <h2 class="page-title-h2"><span>我的购物车</span></h2>
+            </div>
+            <div class="item-list-wrap">
+                <div class="cart-item">
+                    <div class="cart-item-head">
+                        <ul>
+                            <li>商品</li>
+                            <li>价格</li>
+                            <li>数量</li>
+                            <li>小计</li>
+                            <li>编辑</li>
+                        </ul>
+                    </div>
+                    <ul class="cart-item-list">
+                        <li v-for="(item, index) in cartList">
+                            <div class="cart-tab-1">
+                                <div class="cart-item-check">
+                                    <a href="javascipt:;" class="checkbox-btn item-check-btn" 
+                                        v-bind:class="item.checked?'check':''" 
+                                        v-on:click="item.checked=!item.checked"
+                                        >
+                                        <svg class="icon icon-ok">
+                                            <use xlink:href="#icon-ok"></use>
+                                        </svg>
                                     </a>
                                 </div>
-                                <div class="col col-name">
-                                    <h3 class="name">
-                                        <a href="goods.php?id=27" target="_blank">小米电视2 40英寸 </a>
-                                    </h3>
-                                    <p class="desc">
-                                        <span>尺寸:45 颜色:黄[100] </span>
-                                    </p>
+                                <div class="cart-item-pic">
+                                    <img v-bind:src="'/static/img/' + item.productImage">
                                 </div>
-
-                                <div class="col col-price">
-                                    2300.00<em>元</em> 
+                                <div class="cart-item-title">
+                                    <div class="item-name">{{item.productName}}</div>
                                 </div>
-                                <div class="col col-num">
-                                    <div class="change-goods-num clearfix">
-                                        <a href="javascript:void(0)" class="minus" title="减少1个数量" onclick="flowClickCartNum(14,-1);">
-                                            <i class="iconfont"></i>
-                                        </a>
-                                        <input type="text" id="goods_number_14" value="1" onchange="flowClickCartNum(14,0)">
-                                        <a href="javascript:void(0)" class="add" title="增加1个数量" onclick="flowClickCartNum(14,+1);">
-                                            <i class="iconfont"></i>
-                                        </a>
+                            </div>
+                            <div class="cart-tab-2">
+                                <div class="item-price">{{item.salePrice | money}}</div>
+                            </div>
+                            <div class="cart-tab-3">
+                                <div class="item-quantity">
+                                    <div class="select-self select-self-open">
+                                        <div class="select-self-area">
+                                            <a class="input-sub" v-on:click="jian(index)" >-</a>
+                                            <span class="select-ipt">{{item.productNum}}</span>
+                                            <a class="input-add" v-on:click="jia(index)" >+</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col col-total">
-                                    <span id="total_items_14">
-                                        2300.00<em>元</em>
-                                    </span>
+                            </div>
+                            <div class="cart-tab-4">
+                                <div class="item-price-total">
+                                     {{item.salePrice * item.productNum | money}}
+                                    
                                 </div>
-                                <div class="col col-action">
-                                    <a class="del" href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=drop_goods&amp;id=14';">
-                                        <i class="iconfont"></i>
+                            </div>
+                            <div class="cart-tab-5">
+                                <div class="cart-item-opration">
+                                    <a href="javascript:;" class="item-edit-btn">
+                                        <svg class="icon icon-del">
+                                            <use xlink:href="#icon-del"></use>
+                                        </svg>
                                     </a>
                                 </div>
                             </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cart-foot-wrap">
+                <div class="cart-foot-inner">
+                    <div class="cart-foot-l">
+                        <div class="item-all-check">
+                            <a href="javascipt:;">
+                                <span class="checkbox-btn item-check-btn">
+                      <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
+                  </span>
+                  <span>全选</span>
+                            </a>
                         </div>
                     </div>
-                </div>
-                <p class="clear-cart"> <a id="del-all" href="flow.php?step=clear">清空购物车</a> </p>
-
-                <div class="cart-bar clearfix">
-                    <div class="section-left">
-                        <a class="back-shopping btn btn-gray" href="./">继续购物</a>
+                    <div class="cart-foot-r">
+                        <div class="item-total">
+                            <!-- 总计: <span class="total-price">{{sum}}</span> -->
+                            总计: <span class="total-price">{{sum}}</span>
+                        </div>
+                        <div class="btn-wrap">
+                            <a class="btn btn--red">结算</a>
+                        </div>
                     </div>
-                    <span class="total-price"><span class="total-num"></span>&nbsp;&nbsp;&nbsp;合计：<b id="totalSkuPrice">2547.00<em>元</em></b></span>
-                    <a href="flow.php?step=checkout" class="btn btn-pay btn-primary">去结算</a>
                 </div>
             </div>
         </div>
@@ -81,16 +105,80 @@
 
 <script>
 import NavBread from '@/components/NavBread'
-
+import bus from "@/bus.js"
 export default {
   name: 'Cart',
   components:{
     NavBread
+  },
+  data(){
+      return {
+          cartList:[]
+      }
+  },
+  created(){
+      this.loadData()
+      bus.$on("loginOK",function(){
+          console.log(bus)
+      })
+  },
+  computed:{
+       sum: function() {
+          var s = 0;
+          for (var i = 0; i < this.cartList.length; i++) {
+              s += (this.cartList[i].salePrice * this.cartList[i].productNum)
+          }
+          return s
+      }
+  },
+  methods:{
+        loadData() { // 加载数据
+            this.axios.get("/api/users/cartList")
+                .then((res) => {
+                     console.log(res)
+                    this.cartList = res.data.result
+                })
+        },
+      jia(i) {
+        //  i 代表当前点击的下标
+        this.cartList[i].productNum++
+
+      },
+      jian(i) {
+          if (this.cartList[i].productNum <= 0) {
+              return ; // 不能再减了
+          }
+          
+        this.cartList[i].productNum--
+      }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-     
+     .input-sub,.input-add {
+            min-width: 40px;
+            height: 100%;
+            border: 0;
+            color: #605F5F;
+            text-align: center;
+            font-size: 16px;
+            overflow: hidden;
+            display: inline-block;
+            background: #f0f0f0;
+        }
+        
+        .item-quantity .select-self-area {
+            background: none;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .item-quantity .select-self-area .select-ipt {
+            display: inline-block;
+            padding: 0 3px;
+            width: 30px;
+            min-width: 30px;
+            text-align: center;
+        }
 </style>

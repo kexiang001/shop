@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import bus from "@/bus.js"
 export default {
   name: 'LoginModal',
   props:["mdShow"],
@@ -47,17 +48,23 @@ export default {
   },
   methods:{
     login(){
-      this.axios.get("/static/mock/mock-user.json",{
-        params:{
+      // this.axios.get("/static/mock/mock-user.json",{
+      //   params:{
+      //     userName: this.userName,
+      //     userPwd: this.userPwd
+      //   }
+      // })
+      this.axios.post("/api/users/login",{
+        
           userName: this.userName,
           userPwd: this.userPwd
-        }
+        
       })
       .then((res) => {
         var data = res.data
-        // alert(data.result.userName)
-        if(data.code == 0){
-          
+        console.log(data)
+        if(data.status == 0){
+          bus.$emit("loginOK")
           this.$emit("success",data.result.userName)
         }else{
           this.hasError = true;
